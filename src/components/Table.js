@@ -16,7 +16,20 @@ export default function Table() {
           value={ searchPlanetName }
           onChange={ handleSearchPlanetName }
         />
+      </label>
 
+      <label htmlFor="column-filter">
+        Coluna
+        <select
+          data-testid="column-filter"
+          name="column-filter"
+          // value={ }
+          // onChange={  }
+        >
+          {currencies.map(
+            (curr) => <option key={ curr } value={ curr }>{curr}</option>,
+          )}
+        </select>
       </label>
       <table>
         <thead>

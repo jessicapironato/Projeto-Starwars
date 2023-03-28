@@ -7,6 +7,12 @@ export default function AppProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [searchPlanetName, setSearchPlanetName] = useState('');
   const [planetsFixed, setPlanetsFixed] = useState([]);
+  const [columnFilter, setColumnFilter] = useState(
+    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+  );
+  const [comparisonFilter, setComparisonFilter] = useState(
+    ['maior que', 'menor que', 'igual'],
+  );
 
   // requisito 1
   const fetchData = async () => {
@@ -40,6 +46,10 @@ export default function AppProvider({ children }) {
     planets,
     setPlanets,
     handleSearchPlanetName,
+    columnFilter,
+    setColumnFilter,
+    comparisonFilter,
+    setComparisonFilter,
 
   };
 
