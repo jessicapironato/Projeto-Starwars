@@ -34,12 +34,18 @@ export default function AppProvider({ children }) {
     const searchPlanets = planetsFixed.filter((planet) => planet
       .name.includes((searchPlanetName)));
     setPlanets(searchPlanets);
-    console.log(searchPlanets);
   }, [searchPlanetName, planetsFixed]);
+
+  const exportValues = {
+    planets,
+    setPlanets,
+    handleSearchPlanetName,
+
+  };
 
   return (
 
-    <AppContext.Provider value={ { planets, handleSearchPlanetName } }>
+    <AppContext.Provider value={ exportValues }>
       { children }
     </AppContext.Provider>
 
