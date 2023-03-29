@@ -2,7 +2,17 @@ import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 
 export default function Table() {
-  const { planets, searchPlanetName, handleSearchPlanetName } = useContext(AppContext);
+  const {
+    planets,
+    searchPlanetName,
+    handleSearchPlanetName,
+    comparisonFilter,
+    columnFilter,
+    handleButtonClick,
+    valorNumerico,
+    setValorNumerico,
+    actualSelector,
+    setActualSelector } = useContext(AppContext);
 
   return (
     <>
@@ -22,15 +32,54 @@ export default function Table() {
         Coluna
         <select
           data-testid="column-filter"
-          name="column-filter"
-          // value={ }
-          // onChange={  }
+          name="column"
+          value={ actualSelector.column }
+          onChange={ ({ target }) => setActualSelector(
+            { ...actualSelector, [target.name]: target.value },
+          ) }
         >
-          {currencies.map(
-            (curr) => <option key={ curr } value={ curr }>{curr}</option>,
+          {columnFilter.map(
+            (colum) => <option key={ colum } value={ colum }>{colum}</option>,
           )}
         </select>
       </label>
+
+      <label htmlFor="comparison-filter">
+        Operador
+        <select
+          data-testid="comparison-filter"
+          name="comparison"
+          value={ actualSelector.comparison }
+          onChange={ ({ target }) => setActualSelector(
+            { ...actualSelector, [target.name]: target.value },
+          ) }
+        >
+          {comparisonFilter.map(
+            (operator) => <option key={ operator } value={ operator }>{operator}</option>,
+          )}
+        </select>
+      </label>
+
+      <label
+        htmlFor="value-filter"
+      >
+        <input
+          data-testid="value-filter"
+          name="valorNumerico"
+          type="number"
+          value={ valorNumerico }
+          onChange={ ({ target }) => setValorNumerico(target.value) }
+        />
+      </label>
+
+      <button
+        data-testid="button-filter"
+        type="button"
+        onClick={ handleButtonClick }
+      >
+        FILTRAR
+      </button>
+
       <table>
         <thead>
           <tr>
