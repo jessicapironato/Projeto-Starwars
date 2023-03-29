@@ -6,16 +6,9 @@ export default function Table() {
     planets,
     searchPlanetName,
     handleSearchPlanetName,
-    comparisonFilter,
-    columnFilter,
-    // handleButtonClick,
-    valorNumerico,
     setValorNumerico,
-    actualSelector,
-    // setActualSelector,
     setColumnFilter,
     setComparisonFilter,
-    // setValorNumeric,
   } = useContext(AppContext);
 
   const [valorNume, setValorNum] = useState(0);
