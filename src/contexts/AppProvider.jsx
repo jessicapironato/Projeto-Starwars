@@ -7,15 +7,12 @@ export default function AppProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [searchPlanetName, setSearchPlanetName] = useState('');
   const [planetsFixed, setPlanetsFixed] = useState([]);
-  const [columnFilter, setColumnFilter] = useState(
-    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
-  );
-  const [comparisonFilter, setComparisonFilter] = useState(
-    ['maior que', 'menor que', 'igual a'],
-  );
-  const [valorNumerico, setValorNumerico] = useState(0);
+  const [columnFilter, setColumnFilter] = useState('');
+  const [comparisonFilter, setComparisonFilter] = useState('');
+
   const [button, setButton] = useState(false);
 
+  const [valorNumerico, setValorNumerico] = useState(null);
   const [actualSelector, setActualSelector] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -36,6 +33,13 @@ export default function AppProvider({ children }) {
     setPlanetsFixed(resultPlanet);
   };
 
+  // useEffect(() => {
+  //   const filters = planetsFixed.filter((planet) => {
+  //     const allFilters =
+
+  //   });
+  // }, []);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -45,27 +49,26 @@ export default function AppProvider({ children }) {
 
   const handleButtonClick = useCallback(() => {
     setButton(true);
-  }, [setButton]);
+  }, []);
 
   const handleSearchPlanetName = ({ target }) => {
     setSearchPlanetName(target.value);
   };
+
   useEffect(() => {
-    const searchPlanets = planetsFixed.filter((planet) => {
+    const searchPlanets = [...planetsFixed].filter((planet) => {
       const filterByName = planet.name.includes((searchPlanetName));
       let filterByColumn = true;
 
-      if (button) {
-        if (actualSelector.comparison === 'maior que') {
-          filterByColumn = Number(planet[actualSelector.column])
+      if (comparisonFilter === 'maior que') {
+        filterByColumn = Number(planet[columnFilter])
             > Number(valorNumerico);
-        } else if (actualSelector.comparison === 'menor que') {
-          filterByColumn = Number(planet[actualSelector.column])
+      } else if (comparisonFilter === 'menor que') {
+        filterByColumn = Number(planet[columnFilter])
             < Number(valorNumerico);
-        } else if (actualSelector.comparison === 'igual a') {
-          filterByColumn = Number(planet[actualSelector.column])
+      } else if (comparisonFilter === 'igual a') {
+        filterByColumn = Number(planet[columnFilter])
             === Number(valorNumerico);
-        }
       }
 
       return filterByName && filterByColumn;
@@ -77,8 +80,7 @@ export default function AppProvider({ children }) {
     comparisonFilter,
     valorNumerico,
     handleButtonClick,
-    actualSelector,
-    button]);
+  ]);
 
   const exportValues = {
     planets,

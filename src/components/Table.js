@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import AppContext from '../contexts/AppContext';
 
 export default function Table() {
@@ -8,11 +8,37 @@ export default function Table() {
     handleSearchPlanetName,
     comparisonFilter,
     columnFilter,
-    handleButtonClick,
+    // handleButtonClick,
     valorNumerico,
     setValorNumerico,
     actualSelector,
-    setActualSelector } = useContext(AppContext);
+    // setActualSelector,
+    setColumnFilter,
+    setComparisonFilter,
+    // setValorNumeric,
+  } = useContext(AppContext);
+
+  const [valorNume, setValorNum] = useState(0);
+  const [actualColum, setActualColum] = useState('population');
+  const [actualComparison, setActualComparison] = useState('maior que');
+
+  const handleChangeNum = (event) => {
+    setValorNum(event.target.value);
+  };
+
+  const handleChangeActualColum = (event) => {
+    setActualColum(event.target.value);
+  };
+
+  const handleChangeActualComparison = (event) => {
+    setActualComparison(event.target.value);
+  };
+
+  const handleClick = () => {
+    setColumnFilter(actualColum);
+    setComparisonFilter(actualComparison);
+    setValorNumerico(valorNume);
+  };
 
   return (
     <>
@@ -33,14 +59,14 @@ export default function Table() {
         <select
           data-testid="column-filter"
           name="column"
-          value={ actualSelector.column }
-          onChange={ ({ target }) => setActualSelector(
-            { ...actualSelector, [target.name]: target.value },
-          ) }
+          value={ actualColum }
+          onChange={ handleChangeActualColum }
         >
-          {columnFilter.map(
-            (colum) => <option key={ colum } value={ colum }>{colum}</option>,
-          )}
+          <option>population</option>
+          <option>orbital_period</option>
+          <option>diameter</option>
+          <option>rotation_period</option>
+          <option>surface_water</option>
         </select>
       </label>
 
@@ -49,14 +75,12 @@ export default function Table() {
         <select
           data-testid="comparison-filter"
           name="comparison"
-          value={ actualSelector.comparison }
-          onChange={ ({ target }) => setActualSelector(
-            { ...actualSelector, [target.name]: target.value },
-          ) }
+          value={ actualComparison }
+          onChange={ handleChangeActualComparison }
         >
-          {comparisonFilter.map(
-            (operator) => <option key={ operator } value={ operator }>{operator}</option>,
-          )}
+          <option>maior que</option>
+          <option>menor que</option>
+          <option>igual a</option>
         </select>
       </label>
 
@@ -67,18 +91,19 @@ export default function Table() {
           data-testid="value-filter"
           name="valorNumerico"
           type="number"
-          value={ valorNumerico }
-          onChange={ ({ target }) => setValorNumerico(target.value) }
+          value={ valorNume }
+          onChange={ handleChangeNum }
         />
       </label>
 
       <button
         data-testid="button-filter"
         type="button"
-        onClick={ handleButtonClick }
+        onClick={ handleClick }
       >
         FILTRAR
       </button>
+      <hr />
 
       <table>
         <thead>
