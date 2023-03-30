@@ -1,18 +1,22 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../contexts/AppContext';
 
 export default function Table() {
   const {
-
     searchPlanetName,
     handleSearchPlanetName,
     arrayByColumns, setarrayByColumns,
     allFiltered,
+    columnFilter,
   } = useContext(AppContext);
 
   const [valorNume, setValorNum] = useState(0);
   const [actualColum, setActualColum] = useState('population');
   const [actualComparison, setActualComparison] = useState('maior que');
+
+  useEffect(() => {
+    setActualColum(columnFilter[0]);
+  }, [columnFilter]);
 
   const handleChangeNum = (event) => {
     setValorNum(event.target.value);
@@ -57,11 +61,13 @@ export default function Table() {
           value={ actualColum }
           onChange={ handleChangeActualColum }
         >
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          { columnFilter.map((colum) => (
+            <option
+              key={ colum }
+              value={ colum }
+            >
+              {colum }
+            </option>))}
         </select>
       </label>
 
@@ -98,6 +104,7 @@ export default function Table() {
       >
         FILTRAR
       </button>
+
       <hr />
 
       <table>

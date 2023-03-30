@@ -7,11 +7,13 @@ export default function AppProvider({ children }) {
   console.log(planets);
   const [searchPlanetName, setSearchPlanetName] = useState('');
   const [planetsFixed, setPlanetsFixed] = useState([]);
-
   const [arrayByColumns, setarrayByColumns] = useState([]);
-
   const [allFiltered, setAllFiltered] = useState([]);
 
+  const [columnFilter, setColumnFilter] = useState(
+    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+  );
+  console.log(setColumnFilter);
   // requisito 1
   const fetchData = async () => {
     const request = await fetch('https://swapi.dev/api/planets');
@@ -24,10 +26,6 @@ export default function AppProvider({ children }) {
     setPlanets(resultPlanet);
     setPlanetsFixed(resultPlanet);
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handleSearchPlanetName = ({ target }) => {
     setSearchPlanetName(target.value);
@@ -59,6 +57,18 @@ export default function AppProvider({ children }) {
   };
 
   useEffect(() => {
+    const usedFilters = arrayByColumns.map((filtro) => filtro.actualColum);
+
+    const noRepeatFilter = columnFilter.filter((filtro) => !usedFilters.includes(filtro));
+
+    setColumnFilter(noRepeatFilter);
+  }, [arrayByColumns]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     const filteredByName = searchPlanets(planetsFixed);
     const filteredByColumn = columnFiltered(filteredByName);
 
@@ -69,10 +79,10 @@ export default function AppProvider({ children }) {
 
     searchPlanetName,
     handleSearchPlanetName,
-
     arrayByColumns,
     setarrayByColumns,
     allFiltered,
+    columnFilter,
   };
 
   return (
