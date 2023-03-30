@@ -39,6 +39,16 @@ export default function Table() {
     setarrayByColumns([...arrayByColumns, columnInfo]);
   };
 
+  const removeOne = (col) => {
+    const arrayByColumns2 = arrayByColumns
+      .filter((element) => element.actualColum !== col);
+    setarrayByColumns(arrayByColumns2);
+  };
+
+  const removeEverthing = () => {
+    setarrayByColumns([]);
+  };
+
   return (
     <>
       <h1>Project Starwars Planets Search</h1>
@@ -104,6 +114,36 @@ export default function Table() {
       >
         FILTRAR
       </button>
+
+      <button
+        data-testid="button-remove-filters"
+        type="button"
+        onClick={ removeEverthing }
+      >
+        Remover todas filtragens
+      </button>
+
+      {
+        arrayByColumns.map((element) => (
+          <p
+            key={ element.actualColum }
+            data-testid="filter"
+          >
+            {element.actualColum}
+
+            {element.actualComparison}
+
+            {element.valorNume}
+
+            <button
+              type="button"
+              onClick={ () => removeOne(element.actualColum) }
+            >
+              Remover
+            </button>
+          </p>
+        ))
+      }
 
       <hr />
 
