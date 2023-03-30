@@ -168,7 +168,7 @@ export default function Table() {
         <tbody>
           {allFiltered.map((planet, index) => (
             <tr key={ index }>
-              <td>{planet.name}</td>
+              <td data-testid="planet">{planet.name}</td>
               <td>{planet.rotation_period}</td>
               <td>{planet.orbital_period}</td>
               <td>{planet.diameter}</td>
