@@ -3,12 +3,11 @@ import AppContext from '../contexts/AppContext';
 
 export default function Table() {
   const {
-    planets,
+
     searchPlanetName,
     handleSearchPlanetName,
-    setValorNumerico,
-    setColumnFilter,
-    setComparisonFilter,
+    arrayByColumns, setarrayByColumns,
+    allFiltered,
   } = useContext(AppContext);
 
   const [valorNume, setValorNum] = useState(0);
@@ -28,9 +27,12 @@ export default function Table() {
   };
 
   const handleClick = () => {
-    setColumnFilter(actualColum);
-    setComparisonFilter(actualComparison);
-    setValorNumerico(valorNume);
+    const columnInfo = {
+      actualColum,
+      actualComparison,
+      valorNume,
+    };
+    setarrayByColumns([...arrayByColumns, columnInfo]);
   };
 
   return (
@@ -117,7 +119,7 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {planets.map((planet, index) => (
+          {allFiltered.map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
